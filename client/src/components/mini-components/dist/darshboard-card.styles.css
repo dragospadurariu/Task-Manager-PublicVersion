@@ -1,0 +1,10 @@
+.dashboard-card-container {
+  min-width: 25rem;
+  min-height: 15rem;
+  background-color: #282828;
+  color: #E0E0E0;
+  padding: 1.2rem 1.6rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}

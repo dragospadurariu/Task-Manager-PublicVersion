@@ -1,0 +1,39 @@
+.MuiInput-input {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #282828;
+  outline: none;
+  border: none;
+  font-family: inherit;
+  color: var(--tertiary-color);
+}
+
+.MuiInputBase-input {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #282828;
+  outline: none;
+  border: none;
+  font-family: inherit;
+  color: var(--tertiary-color);
+}
+
+.MuiInputBase-root {
+  width: 10rem;
+  margin-left: 1rem;
+  border: 0.01em solid var(--tertiary-color);
+  color: var(--tertiary-color);
+}
+
+.MuiPickersToolbar-toolbar {
+  background-color: var(--primary-color-1);
+}
+
+.MuiPickersBasePicker-pickerView {
+  color: white;
+  background-color: var(--primary-color-1);
+}
+
+.MuiPickersCalendar-transitionContainer {
+  color: white;
+}

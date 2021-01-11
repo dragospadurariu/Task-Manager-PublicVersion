@@ -1,0 +1,46 @@
+.task{
+  &-container{
+
+    font-size: 1rem;
+    width: 23rem;
+  
+    color: var(--light-color);
+    background-color: var(--primary-color);
+    // box-shadow: $box-shadow-1;
+  
+    padding: 2.8rem 1rem;
+    position: relative;
+    word-wrap: break-word;
+
+    &:hover{
+      background-color: #303030;
+      transform: translateY(-0.2rem);
+      box-shadow: 0 0.2rem 2rem 0 black;
+    }
+  }
+
+  &-container:not(:first-child){
+    margin-top: 1.5rem;
+
+  }
+
+  &-icon-edit{
+    font-size: 1.5rem;
+    display: flex;
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    transition: all 0.2s;
+  }
+
+  &-icon-delete{
+    font-size: 1.5rem;
+    display: flex;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 1rem;
+    fill: #FFFFFF;
+    transition: all 0.2s;
+  }
+  
+}

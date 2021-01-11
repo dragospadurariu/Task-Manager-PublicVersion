@@ -1,0 +1,238 @@
+/* Global Styles */
+:root {
+  --primary-color-1:#181818;
+  --primary-color:#212121;
+  /* --primary-color-1: #212121; */
+
+  --secondary-color:#30475e;
+  --tertiary-color: #e94560;
+  --light-color: #ececec;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html{
+  font-size: 62.5%; 
+}
+
+#root{
+  display: grid;
+  grid-template-rows: 7vh 93vh;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.rem;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}
+
+a {
+  color: var(--tertiary-color);
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+}
+
+/* Utilities */
+.container {
+  grid-row: 2/-1;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  flex-shrink: 1;
+}
+
+/*
+A Container
+*/
+.a-container{
+  display:flex;
+  flex-direction: row;
+}
+
+/*
+Alert
+*/
+
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: var(--light-color);
+  color: #333;
+}
+
+/*
+Buttons
+*/
+.btn {
+  display: inline-block;
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  transition: all .2s;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+.btn:last-child{
+  margin-right: 0rem;
+
+}
+
+.btn:active{
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(#000, 0.2);
+}
+
+.btn-danger,
+.bg-danger,
+.badge-danger,
+.alert-danger {
+  background: var(--danger-color);
+  color: #fff;
+}
+.btn-success,
+.bg-success,
+.badge-success,
+.alert-success {
+  background: var(--success-color);
+  color: #fff;
+}
+
+.btn-tertiary,
+.bg-tertiary,
+.badge-tertiary,
+.alert-tertiary {
+  background: var(--tertiary-color);
+  color:var(--light-color);
+}
+
+.btn-light,
+.bg-light,
+.badge-light,
+.alert-light {
+  background: var(--light-color);
+  color: #333;
+}
+
+.btn-dark,
+.bg-dark,
+.badge-dark,
+.alert-dark {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+
+/* 
+Navbar 
+*/
+.navbar {
+  grid-row: 1/2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 7vh;
+  top: 0;
+  border-bottom: solid 1px var(--tertiary-color);
+}
+
+.navbar ul {
+  display: flex;
+}
+
+.navbar a {
+  color: #fff;
+  padding: 0.45rem;
+  margin: 0 0.25rem;
+}
+
+.navbar a:hover {
+  color: var(--tertiary-color);
+}
+
+.navbar .welcome span {
+  margin-right: 0.6rem;
+}
+
+
+/* 
+Landing Page
+*/
+
+.landing {
+  position: relative;
+  background: url('./images/background.jpg') no-repeat center center/cover;
+  height: 100vh;
+}
+
+.landing-inner {
+  color: #fff;
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+Margins
+*/
+.margin-left-2{
+  margin-left: 2rem;
+}
+
+.margin-left-20{
+  margin-left: 20vw;
+}
+
+.margin-top-10{
+  margin-top: 5rem;
+}
+
+.icon-material{
+  font-family: 'Material Icons';
+  color:var(--tertiary-color);
+  cursor:pointer
+}
+
+
+.card-action-button{
+  flex-shrink: 1;
+  align-self: flex-start;
+}

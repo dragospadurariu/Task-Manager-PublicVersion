@@ -1,0 +1,217 @@
+.task-window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  color: var(--light-color);
+}
+.task-window-container {
+  width: 60vw;
+  height: 80vh;
+  margin: 10vh auto;
+  background-color: var(--primary-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  display: grid;
+  grid-template-rows: minmax(5rem, max-content) minmax(10rem, auto) 5rem;
+  grid-template-columns: 1fr 0.3fr;
+  border: 0.01em solid #282828;
+}
+.task-window-header {
+  grid-column: 1/-1;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  padding: 1rem 3rem;
+  background-color: #181818;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-color);
+}
+.task-window-header-textarea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin: 0;
+  color: #E0E0E0;
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  text-decoration: none;
+  resize: none;
+  overflow: auto;
+  text-align-last: center;
+}
+.task-window-main {
+  padding: 0 4rem;
+  margin-top: 5rem;
+  grid-column: 1/2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+.task-window-siderbar {
+  grid-template-columns: 2/-1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.task-window-footer {
+  grid-column: 1/-1;
+  background-color: var(--primary-color-1);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 8px 10px;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-description-input-window {
+  width: 100%;
+  background-color: #404040;
+  border: 0.01em solid #E0E0E0;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  display: block;
+}
+
+.task-description-input-text {
+  width: 100%;
+  min-height: 4rem;
+  display: block;
+  line-height: 1rem;
+  font-family: inherit;
+  resize: none;
+  line-height: 1.5rem;
+  text-decoration: none;
+  background-color: #404040;
+  color: #E0E0E0;
+  padding: 0.5rem;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+}
+
+.task-description-text {
+  margin-top: 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--light-color);
+  background-color: #404040;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 1rem;
+}
+.task-description-text:hover {
+  background-color: var(--primary-color-1);
+}
+
+.task-window-comments-title {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: var(--light-color);
+}
+.task-window-comments-input-container {
+  width: 100%;
+  background-color: #404040;
+  border: 0.01em solid #E0E0E0;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  display: block;
+}
+.task-window-comments-textarea {
+  width: 100%;
+  min-height: 4rem;
+  display: block;
+  line-height: 1rem;
+  font-family: inherit;
+  resize: none;
+  line-height: 1.5rem;
+  text-decoration: none;
+  background-color: #404040;
+  color: var(--light-color);
+  padding: 0.5rem;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+}
+.task-window-comments-list {
+  width: 100%;
+  line-height: 1rem;
+  font-family: inherit;
+  resize: none;
+  line-height: 1.5rem;
+  text-decoration: none;
+  background-color: #303030;
+  color: #E0E0E0;
+  padding: 0.5rem;
+  border-radius: 3px;
+  border: none;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.task-window-comments-timespan {
+  color: var(--tertiary-color);
+  margin-right: 2rem;
+  font-size: 0.9rem;
+}
+.task-window-comments-text {
+  margin-right: auto;
+}
+.task-window-comments-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 3rem;
+  transform: rotate(45deg);
+  cursor: pointer;
+}
+.task-window-comments-delete:hover {
+  color: var(--danger-color);
+}
+
+.task-window-date {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+.task-window-date-title {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  color: #E0E0E0;
+}
+.task-window-date-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+.task-window-date-timestamp-container {
+  display: flex;
+  align-items: center;
+}
+.task-window-date-timestamp {
+  width: 12rem;
+  display: flex;
+  align-items: center;
+  background-color: #282828;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--tertiary-color);
+  margin-left: 1rem;
+  border: 0.01em solid var(--tertiary-color);
+  box-shadow: 0 0 10px #121212;
+  flex-grow: 0;
+  transition: all 0.2s;
+}
