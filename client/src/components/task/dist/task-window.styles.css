@@ -20,6 +20,17 @@
   grid-template-columns: 1fr 0.3fr;
   border: 0.01em solid #282828;
 }
+@media (max-width: 500px) {
+  .task-window-container {
+    width: 100vw;
+    height: 90vh;
+  }
+}
+@media (max-width: 800px) and (min-width: 500px) {
+  .task-window-container {
+    width: 80vw;
+  }
+}
 .task-window-header {
   grid-column: 1/-1;
   border-top-left-radius: 1rem;
@@ -38,7 +49,6 @@
   padding: 1rem;
   font-family: inherit;
   font-weight: 400;
-  font-size: 1.5rem;
   margin: 0;
   color: #E0E0E0;
   background-color: transparent;
@@ -78,7 +88,7 @@
 
 .task-description-input-window {
   width: 100%;
-  background-color: #404040;
+  background-color: #303030;
   border: 0.01em solid #E0E0E0;
   border-radius: 0.3rem;
   padding: 1rem;
@@ -94,7 +104,7 @@
   resize: none;
   line-height: 1.5rem;
   text-decoration: none;
-  background-color: #404040;
+  background-color: #303030;
   color: #E0E0E0;
   padding: 0.5rem;
   border-radius: 3px;
@@ -103,11 +113,10 @@
 }
 
 .task-description-text {
-  margin-top: 1rem;
   font-family: inherit;
   font-size: 1rem;
   color: var(--light-color);
-  background-color: #404040;
+  background-color: #303030;
   border-radius: 3px;
   cursor: pointer;
   padding: 1rem;
@@ -124,7 +133,7 @@
 }
 .task-window-comments-input-container {
   width: 100%;
-  background-color: #404040;
+  background-color: #303030;
   border: 0.01em solid #E0E0E0;
   border-radius: 0.3rem;
   padding: 1rem;
@@ -139,7 +148,7 @@
   resize: none;
   line-height: 1.5rem;
   text-decoration: none;
-  background-color: #404040;
+  background-color: #303030;
   color: var(--light-color);
   padding: 0.5rem;
   border-radius: 3px;
@@ -160,6 +169,25 @@
   border: none;
   margin-bottom: 1rem;
   position: relative;
+  display: flex;
+  align-items: center;
+}
+.task-window-comments-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-wrap: wrap;
+  margin-right: 1rem;
+}
+.task-window-comments-initial {
+  font-size: 1rem;
+  position: relative;
 }
 .task-window-comments-timespan {
   color: var(--tertiary-color);
@@ -168,6 +196,7 @@
 }
 .task-window-comments-text {
   margin-right: auto;
+  font-size: 1.2rem;
 }
 .task-window-comments-delete {
   position: absolute;
@@ -214,4 +243,48 @@
   box-shadow: 0 0 10px #121212;
   flex-grow: 0;
   transition: all 0.2s;
+}
+
+.task-window-labels {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.task-window-labels-title {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  color: #E0E0E0;
+}
+.task-window-labels-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+.task-window-labels-dropdown {
+  top: 100%;
+  left: 0;
+  display: block;
+  max-height: 15rem;
+  overflow-y: scroll;
+  background-color: var(--primary-color);
+  position: absolute;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.task-window-labels-dropdown-row {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.task-window-labels-dropdown-row:hover {
+  background-color: #181818;
+  cursor: pointer;
+}
+.task-window-labels-dropdown-color {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
 }

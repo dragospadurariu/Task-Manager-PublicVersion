@@ -32,7 +32,7 @@ router.get('/columns/dashboard/:dashboardId', auth, function _callee(req, res, n
           _context.next = 4;
           return regeneratorRuntime.awrap(Dashboard.findOne({
             _id: dashboardId,
-            owner: req.user._id
+            users: req.user
           }));
 
         case 4:
@@ -130,7 +130,7 @@ router.post('/columns/:dashboardId', auth, function _callee3(req, res, next) {
           _context3.next = 5;
           return regeneratorRuntime.awrap(Dashboard.findOne({
             _id: dashboardId,
-            owner: req.user._id
+            users: req.user
           }));
 
         case 5:
@@ -199,7 +199,7 @@ router.patch('/columns/:id', auth, function _callee4(req, res, next) {
           column = _context4.sent;
           _context4.next = 13;
           return regeneratorRuntime.awrap(Dashboard.findOne({
-            owner: user._id,
+            users: user,
             columns: id
           }));
 

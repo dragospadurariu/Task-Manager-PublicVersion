@@ -15,12 +15,27 @@
   display: grid;
   grid-template-columns: 40rem 40rem;
 }
+@media (max-width: 600px) {
+  .auth-container {
+    grid-template-columns: 80vw;
+  }
+}
+@media (min-width: 600px) and (max-width: 800px) {
+  .auth-container {
+    grid-template-columns: 50vw;
+  }
+}
 
 .auth-image {
   margin-top: 5rem;
   height: 50rem;
   background-image: url("../../images/register-image.jpg");
   background-size: cover;
+}
+@media (max-width: 800px) {
+  .auth-image {
+    display: none;
+  }
 }
 
 .auth-box {

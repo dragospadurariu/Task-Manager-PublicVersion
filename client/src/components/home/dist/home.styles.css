@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 5% 95%;
+  grid-template-rows: min-content minmax(100px, max-content);
 }
 
 .top-bar {
@@ -13,6 +13,7 @@
   justify-content: center;
   flex-direction: row;
   background-color: var(--primary-color);
+  height: min-content;
 }
 .top-bar-button {
   font-family: inherit;
@@ -24,12 +25,20 @@
   padding: 0.5rem 1rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 100%;
+  height: min-content;
   position: relative;
   cursor: pointer;
   outline: none;
   border: none;
+  user-select: none;
 }
 .top-bar-button:hover {
   background-color: var(--primary-color-1);
+}
+@media (max-width: 600px) {
+  .top-bar-button {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
 }

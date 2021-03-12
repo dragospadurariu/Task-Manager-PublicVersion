@@ -1,10 +1,13 @@
 import axios from 'axios';
+import { handleNotification } from '../components/utils/global.functions';
 import { setAlert } from './alert.action';
 import {
   ADD_DASHBOARD,
   CHANGE_DASHBOARD_NAME,
+  ADD_PARTICIPANTS,
   DELETE_DASHBOARD,
   GET_ALL_DASHBOARDS,
+  DELETE_PARTICIPANT,
 } from './types';
 
 export const addDashboard = (name) => async (dispatch) => {
@@ -52,6 +55,30 @@ export const deleteDashboard = (id) => async (dispatch) => {
     await axios.delete(`/dashboards/${id}`);
     dispatch({ type: DELETE_DASHBOARD, payload: { id } });
   } catch (error) {
-    console.log(error);
+    handleNotification(
+      'Deleting dashboard',
+      'You must be the dashbord owner in order to delete it',
+      'danger'
+    );
+  }
+};
+
+export const addPartipants = (id, email) => async (dispatch) => {
+  try {
+    const res = await axios.patch(`/dashboards/${id}/user/${email}`);
+    dispatch({ type: ADD_PARTICIPANTS, payload: res.data });
+  } catch (error) {
+    const message = error.response.data.message;
+    dispatch(setAlert(message, 'danger'));
+  }
+};
+
+export const deletePartipant = (dashboardID, userID) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/dashboards/${dashboardID}/user/${userID}`);
+    dispatch({ type: DELETE_PARTICIPANT, payload: res.data });
+  } catch (error) {
+    const message = error.response.data.message;
+    dispatch(setAlert(message, 'danger'));
   }
 };

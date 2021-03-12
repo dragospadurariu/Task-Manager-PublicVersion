@@ -11,8 +11,8 @@ const sendEmail = (activationToken, callback) => {
     });
 
     const mailOptions = {
-      from: 'dragosdragos94@gmail.com',
-      to: 'dragosdragos94@gmail.com',
+      from: 'testgmail.com',
+      to: 'test@gmail.com',
       subject: 'Testing',
       text: `<h2>Please click on the following link to active your account</h2>
   <p>http://localhost:3000/users/signup/activate/${activationToken}`,

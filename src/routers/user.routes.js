@@ -11,20 +11,18 @@ router.get('/users/me', auth, async (req, res) => {
   res.send({ user: req.user });
 });
 
+//Sign up without email verification
 router.post('/users/signup', async (req, res, next) => {
   const { email } = req.body;
   const emailCount = await User.countDocuments({ email });
   if (emailCount) return next(ApiError.badRequest(['Email already exists'], 1));
 
   const user = new User(req.body);
+  user.confirmed = true;
 
   try {
     await user.save();
     const token = await user.generateAuthToken();
-
-    sendEmail(token, (error, data) => {
-      if (error) return next(ApiError.internal('Unable to send email', 2));
-    });
 
     res.status(201).send({ user, token });
   } catch (error) {
@@ -41,22 +39,52 @@ router.post('/users/signup', async (req, res, next) => {
   }
 });
 
-router.get('/users/signup/activate/:token', async (req, res, next) => {
-  try {
-    const token = req.params.token;
-    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findOne({ _id });
-    if (!user) {
-      return next('Something went wrong');
-    }
+// router.post('/users/signup', async (req, res, next) => {
+//   const { email } = req.body;
+//   const emailCount = await User.countDocuments({ email });
+//   if (emailCount) return next(ApiError.badRequest(['Email already exists'], 1));
 
-    user.confirmed = true;
-    await user.save();
-    res.send({ user, token });
-  } catch (error) {
-    return next('Something went wrong');
-  }
-});
+//   const user = new User(req.body);
+
+//   try {
+//     await user.save();
+//     const token = await user.generateAuthToken();
+
+//     sendEmail(token, (error, data) => {
+//       if (error) return next(ApiError.internal('Unable to send email', 2));
+//     });
+
+//     res.status(201).send({ user, token });
+//   } catch (error) {
+//     if (error.name === 'ValidationError') {
+//       let errors = [];
+
+//       Object.keys(error.errors).forEach((key) => {
+//         errors.push(error.errors[key].message);
+//       });
+
+//       return next(ApiError.badRequest(errors, 1));
+//     }
+//     next(error);
+//   }
+// });
+
+// router.get('/users/signup/activate/:token', async (req, res, next) => {
+//   try {
+//     const token = req.params.token;
+//     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+//     const user = await User.findOne({ _id });
+//     if (!user) {
+//       return next('Something went wrong');
+//     }
+
+//     user.confirmed = true;
+//     await user.save();
+//     res.send({ user, token });
+//   } catch (error) {
+//     return next('Something went wrong');
+//   }
+// });
 
 router.post('/users/login', async (req, res, next) => {
   const { email, password } = req.body;
@@ -66,7 +94,7 @@ router.post('/users/login', async (req, res, next) => {
 
     if (user.confirmed === false) {
       return next(
-        ApiError.forbidden('You must activate your user before login in')
+        ApiError.forbidden(['You must activate your user before login in'], 1)
       );
     }
     const token = await user.generateAuthToken();

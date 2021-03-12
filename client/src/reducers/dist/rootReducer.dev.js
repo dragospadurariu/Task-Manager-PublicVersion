@@ -17,6 +17,8 @@ var _data = _interopRequireDefault(require("./data.reducer"));
 
 var _task = _interopRequireDefault(require("./task.reducer"));
 
+var _label = _interopRequireDefault(require("./label.reducer"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
@@ -24,7 +26,8 @@ var rootReducer = (0, _redux.combineReducers)({
   auth: _auth["default"],
   data: _data["default"],
   columns: _columns["default"],
-  taskReducer: _task["default"]
+  taskReducer: _task["default"],
+  labelReducer: _label["default"]
 });
 var _default = rootReducer;
 exports["default"] = _default;

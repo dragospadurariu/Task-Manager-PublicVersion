@@ -1,0 +1,26 @@
+.label-list-container {
+  margin-top: 2rem;
+}
+
+.label-row-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+}
+.label-row-container:hover {
+  background-color: var(--primary-color-1);
+  cursor: pointer;
+}
+
+.label-list-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: block;
+}
+
+.card-title {
+  text-align: center;
+}

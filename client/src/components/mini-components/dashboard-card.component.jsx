@@ -4,6 +4,9 @@ import './dashboard-card.styles.scss';
 import DashboardPopup from './dashboard-popup.component';
 import Modal from 'react-modal';
 import { modalStyles } from '../utils/modal.style';
+import 'tippy.js/dist/tippy.css';
+import Tippy from '@tippyjs/react';
+import ToolTipComponent from '../utils/tooltip.component';
 
 const DashboardCard = ({ title, id }) => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -19,7 +22,9 @@ const DashboardCard = ({ title, id }) => {
           setDashboardData({ title, id });
         }}
       >
-        more_horiz
+        <ToolTipComponent text='Dashboard settings'>
+          <span>more_horiz</span>
+        </ToolTipComponent>
       </span>
       <span
         className='dashboard-card-title'

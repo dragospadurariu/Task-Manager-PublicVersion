@@ -9,6 +9,13 @@ const dashboardSchema = new mongoose.Schema(
       trim: true,
     },
     columns: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Column' }],
+    users: [
+      {
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        name: { type: String },
+        email: { type: String },
+      },
+    ],
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       require: true,

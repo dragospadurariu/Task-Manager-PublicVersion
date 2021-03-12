@@ -1,0 +1,87 @@
+.participants-box {
+  top: 100%;
+  left: 0;
+  display: block;
+  position: absolute;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  background-color: #282828;
+  user-select: none;
+}
+.participants-box-container {
+  min-width: 25rem;
+  background-color: #282828;
+  color: #E0E0E0;
+  padding: 1.2rem 1.6rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  overflow: hidden;
+}
+.participants-box-data {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.participants-box-action {
+  display: flex;
+  flex-direction: column;
+}
+.participants-box-action-button {
+  flex-shrink: 1;
+  align-self: flex-start;
+}
+.participants-box-users {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.participants-box-users-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+}
+.participants-box-users-row:hover {
+  background-color: var(--primary-color-1);
+}
+.participants-box-users-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: red;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.participants-box-users-avatar:hover {
+  background-color: #000;
+  opacity: 0.5;
+  box-shadow: 0 8px 6px -6px black;
+  transform: translateY(-1px);
+}
+.participants-box-users-initial {
+  font-size: 1.5rem;
+  line-height: 1;
+  position: relative;
+}
+
+.data-name {
+  text-align: start;
+}
+.data-input {
+  background-color: #383838;
+  outline: none;
+  border: none;
+  padding: 0.5rem;
+  color: #E0E0E0;
+  font-family: inherit;
+  font-size: inherit;
+  border-bottom: 2px solid var(--tertiary-color);
+}

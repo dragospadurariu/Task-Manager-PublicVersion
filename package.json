@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node index.js",
     "server": "env-cmd -f ./config/dev.env nodemon src/index.js",
     "client": "npm start --prefix client",
     "mongodb": "/Users/PADURARIU/Desktop/Files/Dragos/mongodb/bin/mongod.exe --dbpath=/Users/PADURARIU/Desktop/Files/Dragos/mongodb-data",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client  && npm run build --prefix client"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "mongoose": "^5.11.7",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.16",
+    "socket.io": "^4.0.0",
     "validator": "^13.5.1"
   },
   "devDependencies": {

@@ -10,35 +10,42 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const { dashboards } = useSelector((state) => state.data);
+  const { loading: loadingUser } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(getDashboards());
-  }, [dispatch]);
+    const asyncUseEffect = async () => {
+      await dispatch(getDashboards());
+      setLoading(false);
+    };
+    asyncUseEffect();
+  }, [dispatch, loading]);
 
   useEffect(() => {}, [dashboards]);
 
-  const { loading } = useSelector((state) => state.auth);
   const [showDashboard, setShowDashboard] = useState(false);
-
-  return loading ? (
+  return loadingUser || loading ? (
     <Spinner />
   ) : (
     <div className='home-page'>
       <div className='top-bar'>
-        <div
-          className='margin-left-2 top-bar-button'
-          onMouseEnter={() => setShowDashboard(true)}
-          onMouseLeave={() => setShowDashboard(false)}
-        >
-          <span className='icon-material'>add</span>
-          <span>Add new dashboard</span>
-          <Card
-            title={'Add new dashboard'}
-            style={{ display: showDashboard ? 'block' : 'none' }}
-          ></Card>
-        </div>
+        <section className='center-elements'>
+          <div
+            className='margin-left-2 top-bar-button card-first'
+            onMouseEnter={() => setShowDashboard(true)}
+            onMouseLeave={() => setShowDashboard(false)}
+          >
+            <span className='icon-material'>add</span>
+            <span>Add new dashboard</span>
+            <Card
+              title={'Add new dashboard'}
+              // useStyle={transition}
+              style={{ display: showDashboard ? 'block' : 'none' }}
+            ></Card>
+          </div>
+        </section>
 
-        <button className='margin-left-2 top-bar-button'>Add new layout</button>
+        {/* <button className='margin-left-2 top-bar-button'>Add new layout</button> */}
       </div>
       <div className='dashboards-container'>
         {dashboards.map((dashboard) => {

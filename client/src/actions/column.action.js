@@ -17,7 +17,7 @@ export const getColumnsByDashboardID = (dashboardID) => async (dispatch) => {
     const res = await axios.get(`/columns/dashboard/${dashboardID}`);
     dispatch({ type: GET_COLUMNS_BY_DASHBOARD, payload: res.data });
   } catch (error) {
-    console.log(error);
+    window.location = '/home';
   }
 };
 

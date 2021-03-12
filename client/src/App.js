@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Register from './components/auth/register.page';
 import Login from './components/auth/login.page';
 import { setAuthToken } from './components/utils/authToken.js';
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -14,6 +17,7 @@ import { loadUser } from './actions/auth.action';
 import PrivateRoute from './components/routing/PrivateRoute.component';
 import Home from './components/home/home.component';
 import Dashboard from './components/dashboard/dashboard.page';
+import socketIOClient from 'socket.io-client';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -28,6 +32,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
+          <ReactNotification />
           <Navbar />
           <div className='container'>
             <Route exact path='/' component={Landing} />

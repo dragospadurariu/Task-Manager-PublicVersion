@@ -40,7 +40,7 @@ var getColumnsByDashboardID = function getColumnsByDashboardID(dashboardID) {
           case 7:
             _context.prev = 7;
             _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
+            window.location = '/home';
 
           case 10:
           case "end":

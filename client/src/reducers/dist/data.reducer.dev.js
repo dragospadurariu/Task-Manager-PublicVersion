@@ -66,6 +66,16 @@ var data = function data() {
         });
       }
 
+    case _types.ADD_PARTICIPANTS:
+    case _types.DELETE_PARTICIPANT:
+      {
+        return _objectSpread({}, state, {
+          dashboards: state.dashboards.map(function (dashboard) {
+            return dashboard._id === payload._id ? payload : dashboard;
+          })
+        });
+      }
+
     default:
       {
         return _objectSpread({}, state);

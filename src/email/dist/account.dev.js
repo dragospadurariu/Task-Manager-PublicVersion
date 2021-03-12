@@ -12,8 +12,8 @@ var sendEmail = function sendEmail(activationToken, callback) {
       }
     });
     var mailOptions = {
-      from: 'dragosdragos94@gmail.com',
-      to: 'dragosdragos94@gmail.com',
+      from: 'testgmail.com',
+      to: 'test@gmail.com',
       subject: 'Testing',
       text: "<h2>Please click on the following link to active your account</h2>\n  <p>http://localhost:3000/users/signup/activate/".concat(activationToken)
     };

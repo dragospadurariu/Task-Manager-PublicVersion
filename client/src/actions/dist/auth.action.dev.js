@@ -95,7 +95,7 @@ var fetchRegister = function fetchRegister(formData) {
             dispatch({
               type: _types.REGISTER_SUCCESS
             });
-            dispatch((0, _alert.setAlert)('Register success. Please check your email to verify your account', 'success', 10000));
+            dispatch((0, _alert.setAlert)('Register success. Nu este pentru scopuri comerciale, verificarea e-mail-ului nu este necesar.', 'success', 10000));
             _context2.next = 16;
             break;
 

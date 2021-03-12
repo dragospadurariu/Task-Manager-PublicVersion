@@ -31,11 +31,7 @@ const AddColumn = ({ dashboardID }) => {
             add
           </span>
         </div>
-        <div className='column-header-more'>
-          <span className='icon-material' style={{ fontSize: '1.7rem' }}>
-            more_horiz
-          </span>
-        </div>
+
         {showInputField && (
           <div className='column-header-add-container'>
             <input

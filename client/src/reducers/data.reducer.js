@@ -2,6 +2,8 @@ import {
   ADD_DASHBOARD,
   CHANGE_DASHBOARD_NAME,
   DELETE_DASHBOARD,
+  ADD_PARTICIPANTS,
+  DELETE_PARTICIPANT,
   GET_ALL_DASHBOARDS,
 } from '../actions/types';
 
@@ -37,6 +39,16 @@ const data = (state = initialState, action) => {
         ...state,
         dashboards: state.dashboards.filter(
           (dashboard) => dashboard._id !== payload.id
+        ),
+      };
+    }
+
+    case ADD_PARTICIPANTS:
+    case DELETE_PARTICIPANT: {
+      return {
+        ...state,
+        dashboards: state.dashboards.map((dashboard) =>
+          dashboard._id === payload._id ? payload : dashboard
         ),
       };
     }

@@ -9,6 +9,10 @@ import Modal from 'react-modal';
 import { modalStyles } from '../utils/modal.style';
 import { setAlert } from '../../actions/alert.action';
 import { deleteColumn, updateColumn } from '../../actions/column.action';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
+import 'tippy.js/dist/tippy.css';
+import ToolTipComponent from '../utils/tooltip.component';
+import { useTransition, animated, useSpring } from 'react-spring';
 
 const Column = ({ id, name }) => {
   const [taskName, setTaskName] = useState('');
@@ -17,6 +21,12 @@ const Column = ({ id, name }) => {
   const { tasks } = useSelector((state) => state.taskReducer);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [editPopupData, setEditPopupData] = useState(null);
+
+  const taskTransition = useTransition(tasks, (task) => task._id, {
+    from: { opacity: 0, marginLeft: -100, marginRight: 100 },
+    enter: { opacity: 1, marginLeft: 0, marginRight: 0 },
+    leave: { opacity: 0, marginLeft: -100, marginRight: 100 },
+  });
 
   const dispatch = useDispatch();
 
@@ -27,19 +37,6 @@ const Column = ({ id, name }) => {
     setTaskName('');
     setShowInputField(false);
   };
-
-  const renderAllTasks = useCallback(() => {
-    //If the ID(Column ID) === Task.Column => render the Task
-    return tasks.map((task) => {
-      if (id === task.column)
-        return (
-          <TaskContext.Provider value={task} key={task._id}>
-            <Task name={task.name} taskObject={task} id={task._id} />
-          </TaskContext.Provider>
-        );
-      return null;
-    });
-  }, [tasks, id]);
 
   const getTasksNumber = useCallback(() => {
     const array = tasks.filter((task) => {
@@ -83,9 +80,12 @@ const Column = ({ id, name }) => {
               setShowInputField((prevState) => !prevState);
             }}
           >
-            add
+            <ToolTipComponent text='Add new task'>
+              <span>add</span>
+            </ToolTipComponent>
           </span>
         </div>
+
         <div className='column-header-more'>
           <span
             className='icon-material'
@@ -95,7 +95,9 @@ const Column = ({ id, name }) => {
               setShowEditPopup((prevState) => !prevState);
             }}
           >
-            more_horiz
+            <ToolTipComponent text='Edit column'>
+              <span>more_horiz</span>
+            </ToolTipComponent>
           </span>
         </div>
         {showInputField && (
@@ -136,8 +138,39 @@ const Column = ({ id, name }) => {
           deleteMessage={deleteMessage}
         />
       </Modal>
-
-      <div className='tasks-wrapper'>{renderAllTasks()}</div>
+      {/*Drag and Drop Task */}
+      <Droppable droppableId={id}>
+        {(provided) => (
+          <div
+            className='tasks-wrapper'
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {taskTransition.map(({ item, key, props }) => {
+              if (item.column === id)
+                return (
+                  <animated.div key={key} style={props}>
+                    <TaskContext.Provider value={item} key={key}>
+                      <Draggable draggableId={item._id} index={key}>
+                        {(provided) => (
+                          <Task
+                            name={item.name}
+                            taskObject={item}
+                            id={item._id}
+                            innerRef={provided.innerRef}
+                            provided={provided}
+                          />
+                        )}
+                      </Draggable>
+                    </TaskContext.Provider>
+                  </animated.div>
+                );
+              return null;
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </div>
   );
 };

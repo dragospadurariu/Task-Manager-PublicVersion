@@ -18,7 +18,10 @@ var Dashboard = require('../models/dashboard.model');
 
 var Task = require('../models/task.model');
 
-var ApiError = require('../error/ApiError');
+var ApiError = require('../error/ApiError'); //@route   POST /task/column/:id
+//@desc    Createa a new task
+//@access  Private
+
 
 router.post("/task/column/:id", auth, function _callee(req, res, next) {
   var columnId, user, dashboard, column, task;
@@ -31,7 +34,7 @@ router.post("/task/column/:id", auth, function _callee(req, res, next) {
           _context.prev = 2;
           _context.next = 5;
           return regeneratorRuntime.awrap(Dashboard.findOne({
-            owner: user._id,
+            users: user,
             columns: columnId
           }));
 
@@ -70,21 +73,28 @@ router.post("/task/column/:id", auth, function _callee(req, res, next) {
           task.save();
           column.tasks.push(task._id);
           column.save();
+          _context.next = 19;
+          return regeneratorRuntime.awrap(task.populate({
+            path: 'owner'
+          }).execPopulate());
+
+        case 19:
+          console.log(task);
           res.status(201).send(task);
-          _context.next = 23;
+          _context.next = 26;
           break;
 
-        case 20:
-          _context.prev = 20;
+        case 23:
+          _context.prev = 23;
           _context.t0 = _context["catch"](2);
           next(_context.t0);
 
-        case 23:
+        case 26:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[2, 20]]);
+  }, null, null, [[2, 23]]);
 }); //Get All Tasks by Column ID
 
 router.get('/task/column/:id', auth, function _callee2(req, res, next) {
@@ -98,7 +108,7 @@ router.get('/task/column/:id', auth, function _callee2(req, res, next) {
           _context2.prev = 2;
           _context2.next = 5;
           return regeneratorRuntime.awrap(Dashboard.findOne({
-            owner: user._id,
+            users: user,
             columns: columnId
           }));
 
@@ -148,7 +158,9 @@ router.get('/task/column/:id', auth, function _callee2(req, res, next) {
       }
     }
   }, null, null, [[2, 18]]);
-}); //Get All Tasks by Dashboard ID
+}); //@route   GET /task/dashboard/:id
+//@desc    All Tasks by Dashboard ID
+//@access  Private
 
 router.get('/task/dashboard/:id', auth, function _callee3(req, res, next) {
   var dashboardID, user, dashboard, tasks;
@@ -161,7 +173,7 @@ router.get('/task/dashboard/:id', auth, function _callee3(req, res, next) {
           _context3.prev = 2;
           _context3.next = 5;
           return regeneratorRuntime.awrap(Dashboard.findOne({
-            owner: user._id,
+            users: user,
             _id: dashboardID
           }));
 
@@ -179,6 +191,8 @@ router.get('/task/dashboard/:id', auth, function _callee3(req, res, next) {
           _context3.next = 10;
           return regeneratorRuntime.awrap(Task.find({
             dashboard: dashboardID
+          }).populate({
+            path: 'owner'
           }));
 
         case 10:
@@ -203,7 +217,7 @@ router.get('/task/dashboard/:id', auth, function _callee3(req, res, next) {
 //@access  Private
 
 router.patch('/task/:id', auth, function _callee4(req, res, next) {
-  var taskId, user, updates, allowedUpdates, isValidOperation, task;
+  var taskId, user, updates, allowedUpdates, isValidOperation, task, column, dashboard;
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
@@ -211,7 +225,7 @@ router.patch('/task/:id', auth, function _callee4(req, res, next) {
           taskId = req.params.id;
           user = req.user;
           updates = Object.keys(req.body);
-          allowedUpdates = ['description', 'name', 'dueDate'];
+          allowedUpdates = ['description', 'name', 'dueDate', 'column', 'label'];
           isValidOperation = updates.every(function (update) {
             return allowedUpdates.includes(update);
           });
@@ -224,54 +238,90 @@ router.patch('/task/:id', auth, function _callee4(req, res, next) {
           return _context4.abrupt("return", next(ApiError.badRequest('Invalid updates!')));
 
         case 7:
-          console.log(isValidOperation);
-          _context4.prev = 8;
-          _context4.next = 11;
+          _context4.prev = 7;
+          _context4.next = 10;
           return regeneratorRuntime.awrap(Task.findOne({
-            _id: taskId,
-            owner: user._id
+            _id: taskId
           }));
 
-        case 11:
+        case 10:
           task = _context4.sent;
-          console.log(task);
 
           if (task) {
-            _context4.next = 15;
+            _context4.next = 13;
             break;
           }
 
           return _context4.abrupt("return", next(ApiError.badRequest('The task does not exist')));
 
+        case 13:
+          _context4.next = 15;
+          return regeneratorRuntime.awrap(Column.findOne({
+            tasks: task
+          }));
+
         case 15:
+          column = _context4.sent;
+
+          if (column) {
+            _context4.next = 18;
+            break;
+          }
+
+          return _context4.abrupt("return", next(ApiError.badRequest('The column does not exist')));
+
+        case 18:
+          _context4.next = 20;
+          return regeneratorRuntime.awrap(Dashboard.findOne({
+            columns: column,
+            users: user
+          }));
+
+        case 20:
+          dashboard = _context4.sent;
+
+          if (dashboard) {
+            _context4.next = 23;
+            break;
+          }
+
+          return _context4.abrupt("return", next(ApiError.badRequest('The dashboard does not exist')));
+
+        case 23:
           updates.forEach(function (update) {
             return task[update] = req.body[update];
           });
-          _context4.next = 18;
+          _context4.next = 26;
           return regeneratorRuntime.awrap(task.save());
 
-        case 18:
+        case 26:
+          _context4.next = 28;
+          return regeneratorRuntime.awrap(task.populate({
+            path: 'owner'
+          }).execPopulate());
+
+        case 28:
           res.status(200).send(task);
-          _context4.next = 24;
+          _context4.next = 34;
           break;
 
-        case 21:
-          _context4.prev = 21;
-          _context4.t0 = _context4["catch"](8);
+        case 31:
+          _context4.prev = 31;
+          _context4.t0 = _context4["catch"](7);
           next(_context4.t0);
 
-        case 24:
+        case 34:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[8, 21]]);
+  }, null, null, [[7, 31]]);
 }); //@route   POST /task/comments/:id
 //@desc    Create a comment for the task
 //@access  Private
 
 router.post('/task/comments/:id', auth, function _callee5(req, res, next) {
-  var taskId, user, task, newComment;
+  var taskId, user, task, column, dashboard, newComment;
   return regeneratorRuntime.async(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
@@ -281,8 +331,7 @@ router.post('/task/comments/:id', auth, function _callee5(req, res, next) {
           _context5.prev = 2;
           _context5.next = 5;
           return regeneratorRuntime.awrap(Task.findOne({
-            _id: taskId,
-            owner: user._id
+            _id: taskId
           }));
 
         case 5:
@@ -296,30 +345,67 @@ router.post('/task/comments/:id', auth, function _callee5(req, res, next) {
           return _context5.abrupt("return", next(ApiError.badRequest('The task does not exist')));
 
         case 8:
-          newComment = {
-            owner: task._id,
-            text: req.body.text
-          };
-          task.comments.push(newComment);
-          _context5.next = 12;
-          return regeneratorRuntime.awrap(task.save());
+          _context5.next = 10;
+          return regeneratorRuntime.awrap(Column.findOne({
+            tasks: task
+          }));
 
-        case 12:
-          res.status(200).send(task.comments);
-          _context5.next = 18;
-          break;
+        case 10:
+          column = _context5.sent;
+
+          if (column) {
+            _context5.next = 13;
+            break;
+          }
+
+          return _context5.abrupt("return", next(ApiError.badRequest('The column does not exist')));
+
+        case 13:
+          _context5.next = 15;
+          return regeneratorRuntime.awrap(Dashboard.findOne({
+            columns: column,
+            users: user
+          }));
 
         case 15:
-          _context5.prev = 15;
+          dashboard = _context5.sent;
+
+          if (dashboard) {
+            _context5.next = 18;
+            break;
+          }
+
+          return _context5.abrupt("return", next(ApiError.badRequest('The dashboard does not exist')));
+
+        case 18:
+          newComment = {
+            owner: task._id,
+            text: req.body.text,
+            user: {
+              userRef: user._id,
+              username: user.name
+            }
+          };
+          task.comments.push(newComment);
+          _context5.next = 22;
+          return regeneratorRuntime.awrap(task.save());
+
+        case 22:
+          res.status(200).send(task.comments);
+          _context5.next = 28;
+          break;
+
+        case 25:
+          _context5.prev = 25;
           _context5.t0 = _context5["catch"](2);
           next(_context5.t0);
 
-        case 18:
+        case 28:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[2, 15]]);
+  }, null, null, [[2, 25]]);
 }); //@route   Delete /task/comments/:id/:comment_id
 //@desc    Delete a comment using taskID and commentID
 //@access  Private

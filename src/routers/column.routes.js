@@ -13,7 +13,7 @@ router.get('/columns/dashboard/:dashboardId', auth, async (req, res, next) => {
   try {
     const dashboard = await Dashboard.findOne({
       _id: dashboardId,
-      owner: req.user._id,
+      users: req.user,
     });
 
     if (!dashboard)
@@ -59,7 +59,7 @@ router.post('/columns/:dashboardId', auth, async (req, res, next) => {
 
     const dashboard = await Dashboard.findOne({
       _id: dashboardId,
-      owner: req.user._id,
+      users: req.user,
     });
     if (!dashboard)
       return next(ApiError.badRequest('The dashboard does not exist'));
@@ -89,7 +89,7 @@ router.patch('/columns/:id', auth, async (req, res, next) => {
     const column = await Column.findById(id);
 
     const dashboard = await Dashboard.findOne({
-      owner: user._id,
+      users: user,
       columns: id,
     });
     if (!dashboard)

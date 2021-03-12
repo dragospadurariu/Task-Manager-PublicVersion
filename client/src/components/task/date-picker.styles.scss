@@ -64,3 +64,13 @@
   background-color:var(--tertiary-color);
 
 }
+
+.react-datepicker-popper{
+  @media(max-width:500px){
+    left:-10% !important;
+  }
+
+  @media(max-width:800px) and (min-width:500px){
+    
+  }
+}

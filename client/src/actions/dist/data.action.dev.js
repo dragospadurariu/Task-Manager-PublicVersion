@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteDashboard = exports.changeDashboardName = exports.getDashboards = exports.addDashboard = void 0;
+exports.deletePartipant = exports.addPartipants = exports.deleteDashboard = exports.changeDashboardName = exports.getDashboards = exports.addDashboard = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _global = require("../components/utils/global.functions");
 
 var _alert = require("./alert.action");
 
@@ -160,7 +162,7 @@ var deleteDashboard = function deleteDashboard(id) {
           case 6:
             _context4.prev = 6;
             _context4.t0 = _context4["catch"](0);
-            console.log(_context4.t0);
+            (0, _global.handleNotification)('Deleting dashboard', 'You must be the dashbord owner in order to delete it', 'danger');
 
           case 9:
           case "end":
@@ -172,3 +174,77 @@ var deleteDashboard = function deleteDashboard(id) {
 };
 
 exports.deleteDashboard = deleteDashboard;
+
+var addPartipants = function addPartipants(id, email) {
+  return function _callee5(dispatch) {
+    var res, message;
+    return regeneratorRuntime.async(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return regeneratorRuntime.awrap(_axios["default"].patch("/dashboards/".concat(id, "/user/").concat(email)));
+
+          case 3:
+            res = _context5.sent;
+            dispatch({
+              type: _types.ADD_PARTICIPANTS,
+              payload: res.data
+            });
+            _context5.next = 11;
+            break;
+
+          case 7:
+            _context5.prev = 7;
+            _context5.t0 = _context5["catch"](0);
+            message = _context5.t0.response.data.message;
+            dispatch((0, _alert.setAlert)(message, 'danger'));
+
+          case 11:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, null, null, [[0, 7]]);
+  };
+};
+
+exports.addPartipants = addPartipants;
+
+var deletePartipant = function deletePartipant(dashboardID, userID) {
+  return function _callee6(dispatch) {
+    var res, message;
+    return regeneratorRuntime.async(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/dashboards/".concat(dashboardID, "/user/").concat(userID)));
+
+          case 3:
+            res = _context6.sent;
+            dispatch({
+              type: _types.DELETE_PARTICIPANT,
+              payload: res.data
+            });
+            _context6.next = 11;
+            break;
+
+          case 7:
+            _context6.prev = 7;
+            _context6.t0 = _context6["catch"](0);
+            message = _context6.t0.response.data.message;
+            dispatch((0, _alert.setAlert)(message, 'danger'));
+
+          case 11:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, null, null, [[0, 7]]);
+  };
+};
+
+exports.deletePartipant = deletePartipant;

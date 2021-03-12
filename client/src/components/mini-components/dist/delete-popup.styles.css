@@ -16,6 +16,16 @@
   flex-direction: column;
   padding: 0.3rem;
 }
+@media (max-width: 500px) {
+  .delete-popup-innercontainer {
+    width: 70vw;
+  }
+}
+@media (max-width: 800px) and (min-width: 500px) {
+  .delete-popup-innercontainer {
+    width: 40vw;
+  }
+}
 .delete-popup-title {
   color: var(--light-color);
   font-weight: 800;

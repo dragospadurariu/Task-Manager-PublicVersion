@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Task = require('./task.model');
 
 const columnSchema = new mongoose.Schema(
   {
@@ -17,6 +18,12 @@ const columnSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+columnSchema.pre('remove', async function (next) {
+  const column = this;
+  await Task.deleteMany({ column: column._id });
+  next();
+});
 
 const Column = mongoose.model('Column', columnSchema);
 

@@ -62,13 +62,14 @@
 }
 
 .tasks-wrapper{
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 30rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 2rem;
+  height: 100%;
 } 
 
 .add-column{

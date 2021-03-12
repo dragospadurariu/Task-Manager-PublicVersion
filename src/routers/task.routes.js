@@ -6,13 +6,16 @@ const Dashboard = require('../models/dashboard.model');
 const Task = require('../models/task.model');
 const ApiError = require('../error/ApiError');
 
+//@route   POST /task/column/:id
+//@desc    Createa a new task
+//@access  Private
 router.post(`/task/column/:id`, auth, async (req, res, next) => {
   const columnId = req.params.id;
   const user = req.user;
 
   try {
     const dashboard = await Dashboard.findOne({
-      owner: user._id,
+      users: user,
       columns: columnId,
     });
 
@@ -31,6 +34,12 @@ router.post(`/task/column/:id`, auth, async (req, res, next) => {
     task.save();
     column.tasks.push(task._id);
     column.save();
+    await task
+      .populate({
+        path: 'owner',
+      })
+      .execPopulate();
+    console.log(task);
     res.status(201).send(task);
   } catch (error) {
     next(error);
@@ -44,7 +53,7 @@ router.get('/task/column/:id', auth, async (req, res, next) => {
 
   try {
     const dashboard = await Dashboard.findOne({
-      owner: user._id,
+      users: user,
       columns: columnId,
     });
 
@@ -61,21 +70,26 @@ router.get('/task/column/:id', auth, async (req, res, next) => {
   }
 });
 
-//Get All Tasks by Dashboard ID
+//@route   GET /task/dashboard/:id
+//@desc    All Tasks by Dashboard ID
+//@access  Private
 router.get('/task/dashboard/:id', auth, async (req, res, next) => {
   const dashboardID = req.params.id;
   const user = req.user;
 
   try {
     const dashboard = await Dashboard.findOne({
-      owner: user._id,
+      users: user,
       _id: dashboardID,
     });
 
     if (!dashboard)
       return next(ApiError.badRequest('The dashboard does not exist'));
 
-    const tasks = await Task.find({ dashboard: dashboardID });
+    const tasks = await Task.find({ dashboard: dashboardID }).populate({
+      path: 'owner',
+    });
+
     res.status(200).send(tasks);
   } catch (error) {
     next(error);
@@ -90,7 +104,7 @@ router.patch('/task/:id', auth, async (req, res, next) => {
   const user = req.user;
 
   const updates = Object.keys(req.body);
-  const allowedUpdates = ['description', 'name', 'dueDate'];
+  const allowedUpdates = ['description', 'name', 'dueDate', 'column', 'label'];
   const isValidOperation = updates.every((update) =>
     allowedUpdates.includes(update)
   );
@@ -98,15 +112,24 @@ router.patch('/task/:id', auth, async (req, res, next) => {
   if (!isValidOperation) {
     return next(ApiError.badRequest('Invalid updates!'));
   }
-  console.log(isValidOperation);
 
   try {
-    const task = await Task.findOne({ _id: taskId, owner: user._id });
-    console.log(task);
+    //Find the task
+    const task = await Task.findOne({ _id: taskId });
     if (!task) return next(ApiError.badRequest('The task does not exist'));
+
+    //Find the column
+    const column = await Column.findOne({ tasks: task });
+    if (!column) return next(ApiError.badRequest('The column does not exist'));
+
+    //Find dashboard
+    const dashboard = await Dashboard.findOne({ columns: column, users: user });
+    if (!dashboard)
+      return next(ApiError.badRequest('The dashboard does not exist'));
 
     updates.forEach((update) => (task[update] = req.body[update]));
     await task.save();
+    await task.populate({ path: 'owner' }).execPopulate();
     res.status(200).send(task);
   } catch (error) {
     next(error);
@@ -121,12 +144,23 @@ router.post('/task/comments/:id', auth, async (req, res, next) => {
   const user = req.user;
 
   try {
-    const task = await Task.findOne({ _id: taskId, owner: user._id });
+    //Find the task
+    const task = await Task.findOne({ _id: taskId });
     if (!task) return next(ApiError.badRequest('The task does not exist'));
+
+    //Find the column
+    const column = await Column.findOne({ tasks: task });
+    if (!column) return next(ApiError.badRequest('The column does not exist'));
+
+    //Find dashboard
+    const dashboard = await Dashboard.findOne({ columns: column, users: user });
+    if (!dashboard)
+      return next(ApiError.badRequest('The dashboard does not exist'));
 
     const newComment = {
       owner: task._id,
       text: req.body.text,
+      user: { userRef: user._id, username: user.name },
     };
 
     task.comments.push(newComment);

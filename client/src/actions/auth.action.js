@@ -55,7 +55,7 @@ export const fetchRegister = (formData) => async (dispatch) => {
     dispatch({ type: REGISTER_SUCCESS });
     dispatch(
       setAlert(
-        'Register success. Please check your email to verify your account',
+        'Register success. Nu este pentru scopuri comerciale, verificarea e-mail-ului nu este necesar.',
         'success',
         10000
       )

@@ -8,6 +8,10 @@ var taskSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  completed: {
+    type: Boolean,
+    "default": false
+  },
   description: {
     type: String,
     "default": null
@@ -16,6 +20,15 @@ var taskSchema = new mongoose.Schema({
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Task'
+    },
+    user: {
+      userRef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      },
+      username: {
+        type: String
+      }
     },
     text: {
       type: String,
@@ -30,6 +43,11 @@ var taskSchema = new mongoose.Schema({
   }],
   dueDate: {
     type: Date,
+    "default": null
+  },
+  label: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Label',
     "default": null
   },
   column: {
